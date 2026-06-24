@@ -505,7 +505,7 @@
     .dev-info { display: block; }
     .dev-info.hidden { display: none; }
 
-    /* ----- БЛОК С ПЕСНЯМИ ----- */
+    /* ----- БЛОК С ПЕСНЯМИ (ниже разработчика) ----- */
     .songs-section {
       margin-top: 1.8rem;
       padding: 1.2rem 1.5rem;
@@ -548,6 +548,61 @@
     .song-links a i { font-size: 0.9rem; color: #8b6b50; }
     body.dark-theme .song-links a { color: #c9ad93; }
     body.dark-theme .song-links a:hover { border-bottom-color: #c9ad93; }
+
+    /* ----- БЛОК С ИГРОЙ (ниже песен) ----- */
+    .game-section {
+      margin-top: 1.8rem;
+      padding: 1.2rem 1.5rem;
+      background: rgba(248, 242, 235, 0.9);
+      backdrop-filter: blur(2px);
+      border-radius: 2rem;
+      border: 1px solid #d4c0b0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    body.dark-theme .game-section {
+      background: rgba(51, 42, 35, 0.92);
+      border-color: #4d3b2b;
+    }
+    .game-section .game-label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.05rem;
+      color: #3d2c1e;
+    }
+    .game-section .game-label i {
+      color: #8b6b50;
+      font-size: 1.5rem;
+    }
+    body.dark-theme .game-section .game-label { color: #e8ddd2; }
+    .game-section .game-link {
+      background: #8b6b50;
+      color: white;
+      padding: 0.5rem 1.8rem;
+      border-radius: 3rem;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: 0.2s;
+      border: 1px solid #7a5d45;
+    }
+    .game-section .game-link:hover {
+      background: #735a45;
+      transform: scale(0.97);
+    }
+    body.dark-theme .game-section .game-link {
+      background: #5f4a38;
+      border-color: #4d3b2b;
+    }
+    body.dark-theme .game-section .game-link:hover {
+      background: #4d3b2b;
+    }
 
     /* ----- МОДАЛЬНЫЕ ОКНА ----- */
     .modal-overlay {
@@ -713,6 +768,10 @@
       }
       .modal-box { padding: 2rem 1.5rem; }
       .address-block .addr-text { font-size: 1rem; }
+      .game-section {
+        flex-direction: column;
+        text-align: center;
+      }
     }
 
     @media (max-width: 480px) {
@@ -753,6 +812,7 @@
       .card { padding: 1rem 1rem 1.2rem; }
       .dev-card { padding: 1.2rem 1.2rem; }
       .songs-section { padding: 0.8rem 1rem; }
+      .game-section { padding: 0.8rem 1rem; }
       .song-links { gap: 0.6rem 1rem; }
       .song-links a { font-size: 0.85rem; }
       .address-block { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
@@ -761,6 +821,10 @@
       .modal-box { padding: 1.5rem 1rem; }
       .tea-item { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
       .order-summary { flex-direction: column; align-items: stretch; text-align: center; }
+      .game-section .game-link {
+        width: 100%;
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -844,16 +908,6 @@
           </div>
         </div>
       </div>
-
-      <!-- БЛОК С ПЕСНЯМИ -->
-      <div class="songs-section">
-        <h4><i class="fas fa-music"></i> Также я создала свои песни и они про мою любовь к чаю. У них три версии и ссылки к ним ниже:</h4>
-        <div class="song-links">
-          <a href="https://suno.com/s/YI8zvhdL6nD1zhD0" target="_blank"><i class="fas fa-headphones"></i> Лоу-фай</a>
-          <a href="https://suno.com/s/AkL4RJUBHNsDpvBF" target="_blank"><i class="fas fa-headphones"></i> Лёгкий Phonk</a>
-          <a href="https://suno.com/s/PaxsxQ2x87Twjy7o" target="_blank"><i class="fas fa-headphones"></i> Dark Phonk</a>
-        </div>
-      </div>
     </div>
 
     <!-- РАЗРАБОТЧИК (всегда виден) -->
@@ -885,6 +939,10 @@
               <a href="https://www.instagram.com/pickus_228.art" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
               <a href="https://www.facebook.com/share/1GnnYQt4Uh/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
             </div>
+            <div class="info-row" style="margin-top: 0.8rem;"><i class="fas fa-gamepad"></i> Моя игра:</div>
+            <div class="social-links">
+              <a href="https://pickus228-code.github.io/AiGame/" target="_blank"><i class="fas fa-rocket"></i> AiGame</a>
+            </div>
           </div>
         </div>
         
@@ -911,6 +969,26 @@
         </div>
         <div style="margin-top: 0.8rem; font-size: 0.8rem; color: #7a5d45;"><i class="fas fa-arrow-right"></i> Ближайший поток: июль 2026</div>
       </div>
+    </div>
+
+    <!-- БЛОК С ПЕСНЯМИ (ниже разработчика) -->
+    <div class="songs-section">
+      <h4><i class="fas fa-music"></i> Также я создала свои песни и они про мою любовь к чаю. У них три версии и ссылки к ним ниже:</h4>
+      <div class="song-links">
+        <a href="https://suno.com/s/YI8zvhdL6nD1zhD0" target="_blank"><i class="fas fa-headphones"></i> Лоу-фай</a>
+        <a href="https://suno.com/s/AkL4RJUBHNsDpvBF" target="_blank"><i class="fas fa-headphones"></i> Лёгкий Phonk</a>
+        <a href="https://suno.com/s/PaxsxQ2x87Twjy7o" target="_blank"><i class="fas fa-headphones"></i> Dark Phonk</a>
+      </div>
+    </div>
+
+    <!-- БЛОК С ИГРОЙ (ниже песен) -->
+    <div class="game-section">
+      <span class="game-label">
+        <i class="fas fa-gamepad"></i> Ещё я предлагаю вам поиграть в мою игру три в ряд!
+      </span>
+      <a href="https://pickus228-code.github.io/AiGame/" target="_blank" class="game-link">
+        <i class="fas fa-rocket"></i> Играть
+      </a>
     </div>
 
     <div class="footer-note">
@@ -1122,12 +1200,10 @@
         devExpanded = !devExpanded;
         devExpand.classList.toggle('open');
         
-        // Анимация шеврона
         if (chevronIcon) {
           chevronIcon.style.transform = devExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
         }
         
-        // Скрываем/показываем основной контент
         if (devExpanded) {
           mainContent.classList.add('hidden');
           devSection.classList.add('expanded');
@@ -1136,7 +1212,6 @@
           devSection.classList.remove('expanded');
         }
         
-        // Сохраняем позицию скролла (предотвращаем переброс вверх)
         const scrollY = window.scrollY;
         requestAnimationFrame(() => {
           window.scrollTo(0, scrollY);
@@ -1260,7 +1335,7 @@
             document.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('active'));
             swatch.classList.add('active');
             document.getElementById('mainContainer').style.borderColor = color;
-            document.querySelectorAll('.card, .dev-card, .songs-section').forEach(el => {
+            document.querySelectorAll('.card, .dev-card, .songs-section, .game-section').forEach(el => {
               el.style.borderColor = color;
             });
           });
@@ -1277,7 +1352,7 @@
 
       resetColorBtn.addEventListener('click', function() {
         document.getElementById('mainContainer').style.borderColor = '';
-        document.querySelectorAll('.card, .dev-card, .songs-section').forEach(el => {
+        document.querySelectorAll('.card, .dev-card, .songs-section, .game-section').forEach(el => {
           el.style.borderColor = '';
         });
         document.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('active'));
