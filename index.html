@@ -315,7 +315,23 @@
       color: #e8ddd2;
     }
 
-    /* ----- БЛОК РАЗРАБОТЧИКА ----- */
+    /* ----- ОСНОВНОЙ КОНТЕНТ (скрывается при развороте) ----- */
+    .main-content {
+      transition: opacity 0.4s ease, max-height 0.5s ease, margin 0.4s ease, padding 0.4s ease;
+      overflow: hidden;
+      max-height: 5000px;
+      opacity: 1;
+      margin-bottom: 0;
+    }
+    .main-content.hidden {
+      opacity: 0;
+      max-height: 0;
+      margin: 0;
+      padding: 0;
+      pointer-events: none;
+    }
+
+    /* ----- БЛОК РАЗРАБОТЧИКА (всегда виден) ----- */
     .developer-section {
       margin-top: 2.8rem;
       padding-top: 2rem;
@@ -323,6 +339,11 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 2rem;
+      transition: margin-top 0.4s ease;
+    }
+    .developer-section.expanded {
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
     }
     body.dark-theme .developer-section { border-top-color: #4d3b2b; }
 
@@ -369,11 +390,13 @@
       gap: 0.5rem;
       transition: 0.2s;
       border-bottom: 2px solid transparent;
+      user-select: none;
     }
     .dev-card .dev-name:hover {
       border-bottom-color: #8b6b50;
     }
     .dev-card .dev-name i { color: #8b6b50; margin-right: 4px; }
+
     .dev-card .dev-desc {
       color: #5f4a38;
       line-height: 1.6;
@@ -410,7 +433,7 @@
       color: #e8ddd2;
     }
 
-    /* ----- РАЗВОРОТ О РАЗРАБОТЧИКЕ (доп. инфо) ----- */
+    /* ----- РАЗВОРОТ О РАЗРАБОТЧИКЕ (полное окно) ----- */
     .dev-expand {
       margin-top: 1rem;
       padding-top: 1rem;
@@ -453,6 +476,28 @@
       background: #4d3b2b;
       color: #e8ddd2;
     }
+
+    /* --- ТВОРЧЕСКИЕ КАНАЛЫ (в развороте) --- */
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.5rem;
+      margin-top: 0.5rem;
+    }
+    .social-links a {
+      color: #8b6b50;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-bottom: 2px solid transparent;
+      transition: 0.15s;
+    }
+    .social-links a:hover { border-bottom-color: #8b6b50; }
+    .social-links a i { font-size: 1.2rem; }
+    body.dark-theme .social-links a { color: #c9ad93; }
+    body.dark-theme .social-links a:hover { border-bottom-color: #c9ad93; }
 
     /* Скрываемые блоки курсов */
     .courses-info { display: none; }
@@ -738,73 +783,93 @@
     </h1>
     <div class="subhead"><i class="fas fa-store-alt" style="margin-right: 0.5rem; color: #8b6b50;"></i> чайная лавка · свежие листья</div>
 
-    <!-- ОСНОВНАЯ СЕТКА -->
-    <div class="grid-2">
-      <div>
-        <div class="card" style="margin-bottom: 1.8rem;">
-          <h2><i class="fas fa-cart-shopping"></i> Заказ</h2>
-          <form id="orderForm">
-            <div class="form-group">
-              <label for="teaSelect"><i class="fas fa-mug-saucer"></i> Выберите чай</label>
-              <select id="teaSelect"></select>
+    <!-- ОСНОВНОЙ КОНТЕНТ (скрывается при развороте о разработчике) -->
+    <div class="main-content" id="mainContent">
+      <div class="grid-2">
+        <div>
+          <div class="card" style="margin-bottom: 1.8rem;">
+            <h2><i class="fas fa-cart-shopping"></i> Заказ</h2>
+            <form id="orderForm">
+              <div class="form-group">
+                <label for="teaSelect"><i class="fas fa-mug-saucer"></i> Выберите чай</label>
+                <select id="teaSelect"></select>
+              </div>
+              <div class="form-group">
+                <label for="orderQty">Количество (100г)</label>
+                <input type="number" id="orderQty" value="1" min="1" max="10">
+              </div>
+              <button type="submit" class="btn"><i class="fas fa-bag-shopping"></i> Заказать</button>
+              <span style="margin-left: 1rem; font-size: 0.8rem; color: #5f4a38;" id="orderFeedback"></span>
+            </form>
+            <div class="order-summary">
+              <span><i class="fas fa-receipt"></i> Ваш заказ</span>
+              <span id="orderSummaryDisplay">—</span>
             </div>
-            <div class="form-group">
-              <label for="orderQty">Количество (100г)</label>
-              <input type="number" id="orderQty" value="1" min="1" max="10">
+          </div>
+
+          <div class="card">
+            <h2><i class="fas fa-list"></i> Виды чая</h2>
+            <div class="tea-list" id="teaListContainer"></div>
+            <div style="margin-top: 0.8rem; font-size: 0.7rem; color: #7a5d45; display: flex; gap: 0.8rem; flex-wrap: wrap;">
+              <span><i class="fas fa-circle-check"></i> 8 сортов</span>
+              <span><i class="fas fa-weight-scale"></i> фасовка 100г</span>
             </div>
-            <button type="submit" class="btn"><i class="fas fa-bag-shopping"></i> Заказать</button>
-            <span style="margin-left: 1rem; font-size: 0.8rem; color: #5f4a38;" id="orderFeedback"></span>
-          </form>
-          <div class="order-summary">
-            <span><i class="fas fa-receipt"></i> Ваш заказ</span>
-            <span id="orderSummaryDisplay">—</span>
           </div>
         </div>
 
-        <div class="card">
-          <h2><i class="fas fa-list"></i> Виды чая</h2>
-          <div class="tea-list" id="teaListContainer"></div>
-          <div style="margin-top: 0.8rem; font-size: 0.7rem; color: #7a5d45; display: flex; gap: 0.8rem; flex-wrap: wrap;">
-            <span><i class="fas fa-circle-check"></i> 8 сортов</span>
-            <span><i class="fas fa-weight-scale"></i> фасовка 100г</span>
+        <div>
+          <div class="card" style="margin-bottom: 1.8rem;">
+            <h2><i class="fas fa-location-dot"></i> Адрес</h2>
+            <div class="address-block">
+              <i class="fas fa-shop"></i>
+              <span class="addr-text">проспект Независимости, 68</span>
+              <span class="addr-sub">Минск, 220030</span>
+            </div>
+            <div style="margin-top: 0.8rem; display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; color: #5f4a38;">
+              <span><i class="far fa-clock"></i> 10:00 – 22:00</span>
+              <span><i class="fas fa-tram"></i> ст. м. Площадь Победы</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2><i class="fas fa-circle-question"></i> Задать вопрос</h2>
+            <form id="questionForm">
+              <div class="form-group">
+                <label for="questionInput"><i class="far fa-comment"></i> Ваш вопрос</label>
+                <textarea id="questionInput" placeholder="Например: есть ли чай с бергамотом?" required></textarea>
+              </div>
+              <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Отправить</button>
+              <span style="margin-left: 1rem; font-size: 0.8rem; color: #5f4a38;" id="questionFeedback"></span>
+            </form>
           </div>
         </div>
       </div>
 
-      <div>
-        <div class="card" style="margin-bottom: 1.8rem;">
-          <h2><i class="fas fa-location-dot"></i> Адрес</h2>
-          <div class="address-block">
-            <i class="fas fa-shop"></i>
-            <span class="addr-text">проспект Независимости, 68</span>
-            <span class="addr-sub">Минск, 220030</span>
-          </div>
-          <div style="margin-top: 0.8rem; display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; color: #5f4a38;">
-            <span><i class="far fa-clock"></i> 10:00 – 22:00</span>
-            <span><i class="fas fa-tram"></i> ст. м. Площадь Победы</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <h2><i class="fas fa-circle-question"></i> Задать вопрос</h2>
-          <form id="questionForm">
-            <div class="form-group">
-              <label for="questionInput"><i class="far fa-comment"></i> Ваш вопрос</label>
-              <textarea id="questionInput" placeholder="Например: есть ли чай с бергамотом?" required></textarea>
-            </div>
-            <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Отправить</button>
-            <span style="margin-left: 1rem; font-size: 0.8rem; color: #5f4a38;" id="questionFeedback"></span>
-          </form>
+      <!-- БЛОК С ПЕСНЯМИ -->
+      <div class="songs-section">
+        <h4><i class="fas fa-music"></i> Также я создала свои песни и они про мою любовь к чаю. У них три версии и ссылки к ним ниже:</h4>
+        <div class="song-links">
+          <a href="https://suno.com/s/YI8zvhdL6nD1zhD0" target="_blank"><i class="fas fa-headphones"></i> Лоу-фай</a>
+          <a href="https://suno.com/s/AkL4RJUBHNsDpvBF" target="_blank"><i class="fas fa-headphones"></i> Лёгкий Phonk</a>
+          <a href="https://suno.com/s/PaxsxQ2x87Twjy7o" target="_blank"><i class="fas fa-headphones"></i> Dark Phonk</a>
         </div>
       </div>
     </div>
 
-    <!-- РАЗРАБОТЧИК + КУРСЫ -->
-    <div class="developer-section">
+    <!-- РАЗРАБОТЧИК (всегда виден) -->
+    <div class="developer-section" id="devSection">
       <div class="dev-card" id="devCardLeft">
         <div class="dev-info" id="devInfoBlock">
           <h3><i class="fas fa-code"></i> Разработчик</h3>
-          <div class="dev-name" id="devNameToggle"><i class="fas fa-paw"></i> Дианазавр <i class="fas fa-chevron-down" style="font-size: 0.9rem; opacity: 0.7;"></i></div>
+          <div class="dev-name" id="devNameToggle">
+            <i class="fas fa-paw"></i> Дианазавр 
+            <i class="fas fa-chevron-down" id="chevronIcon" style="font-size: 0.9rem; opacity: 0.7; transition: transform 0.3s;"></i>
+          </div>
+          <div class="dev-desc"><i class="fas fa-quote-left" style="color: #b09880; margin-right: 4px;"></i>Создатель этого сайта-портфолио. Люблю чай, уют и минимализм.</div>
+          <a class="dev-link" id="coursesToggleLink"><i class="fas fa-graduation-cap"></i> Посмотреть IT-курсы →</a>
+          <div style="margin-top: 0.6rem; font-size: 0.85rem; color: #5f4a38;"><i class="fas fa-star" style="color: #8b6b50;"></i> Курсы от DianaCode</div>
+          
+          <!-- РАЗВОРАЧИВАЕМОЕ ОКНО -->
           <div class="dev-expand" id="devExpand">
             <div class="info-row"><i class="fas fa-calendar-alt"></i> Возраст: 16 лет</div>
             <div class="info-row"><i class="fas fa-heart"></i> Хобби:</div>
@@ -814,11 +879,15 @@
               <span><i class="fas fa-music"></i> Музыка</span>
               <span><i class="fas fa-graduation-cap"></i> Курсы</span>
             </div>
+            <div class="info-row" style="margin-top: 0.8rem;"><i class="fas fa-share-alt"></i> Мои каналы с творчеством:</div>
+            <div class="social-links">
+              <a href="https://www.tiktok.com/@pickus_228.art" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+              <a href="https://www.instagram.com/pickus_228.art" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+              <a href="https://www.facebook.com/share/1GnnYQt4Uh/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+            </div>
           </div>
-          <div class="dev-desc"><i class="fas fa-quote-left" style="color: #b09880; margin-right: 4px;"></i>Создатель этого сайта-портфолио. Люблю чай, уют и минимализм.</div>
-          <a class="dev-link" id="coursesToggleLink"><i class="fas fa-graduation-cap"></i> Посмотреть IT-курсы →</a>
-          <div style="margin-top: 0.6rem; font-size: 0.85rem; color: #5f4a38;"><i class="fas fa-star" style="color: #8b6b50;"></i> Курсы от DianaCode</div>
         </div>
+        
         <div class="courses-info" id="coursesInfoBlock">
           <h3><i class="fas fa-laptop-code"></i> IT-курсы</h3>
           <div style="display: flex; flex-direction: column; gap: 0.6rem;">
@@ -841,16 +910,6 @@
           <span style="font-size: 0.8rem; color: #5f4a38;" id="courseSignupFeedback"></span>
         </div>
         <div style="margin-top: 0.8rem; font-size: 0.8rem; color: #7a5d45;"><i class="fas fa-arrow-right"></i> Ближайший поток: июль 2026</div>
-      </div>
-    </div>
-
-    <!-- БЛОК С ПЕСНЯМИ -->
-    <div class="songs-section">
-      <h4><i class="fas fa-music"></i> Также я создала свои песни и они про мою любовь к чаю. У них три версии и ссылки к ним ниже:</h4>
-      <div class="song-links">
-        <a href="https://suno.com/s/YI8zvhdL6nD1zhD0" target="_blank"><i class="fas fa-headphones"></i> Лоу-фай</a>
-        <a href="https://suno.com/s/AkL4RJUBHNsDpvBF" target="_blank"><i class="fas fa-headphones"></i> Лёгкий Phonk</a>
-        <a href="https://suno.com/s/PaxsxQ2x87Twjy7o" target="_blank"><i class="fas fa-headphones"></i> Dark Phonk</a>
       </div>
     </div>
 
@@ -919,7 +978,7 @@
 
   <script>
     (function() {
-      // ----- ДАННЫЕ ЧАЯ (новые цены) -----
+      // ----- ДАННЫЕ ЧАЯ -----
       const teaList = [
         { name: 'Черный классический', price: '5.00' },
         { name: 'Черный с бергамотом', price: '5.50' },
@@ -1048,19 +1107,40 @@
         setTimeout(() => { authFeedback.innerHTML = ''; modal.classList.remove('active'); }, 2000);
       });
 
-      // ----- РАЗВОРОТ О РАЗРАБОТЧИКЕ -----
+      // ----- РАЗВОРОТ О РАЗРАБОТЧИКЕ + СКРЫТИЕ КОНТЕНТА (без переброса страницы) -----
       const devNameToggle = document.getElementById('devNameToggle');
       const devExpand = document.getElementById('devExpand');
+      const mainContent = document.getElementById('mainContent');
+      const devSection = document.getElementById('devSection');
+      const chevronIcon = document.getElementById('chevronIcon');
       let devExpanded = false;
 
       devNameToggle.addEventListener('click', function(e) {
+        e.preventDefault();
         e.stopPropagation();
+        
         devExpanded = !devExpanded;
         devExpand.classList.toggle('open');
-        const icon = devNameToggle.querySelector('.fa-chevron-down');
-        if (icon) {
-          icon.style.transform = devExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+        
+        // Анимация шеврона
+        if (chevronIcon) {
+          chevronIcon.style.transform = devExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
         }
+        
+        // Скрываем/показываем основной контент
+        if (devExpanded) {
+          mainContent.classList.add('hidden');
+          devSection.classList.add('expanded');
+        } else {
+          mainContent.classList.remove('hidden');
+          devSection.classList.remove('expanded');
+        }
+        
+        // Сохраняем позицию скролла (предотвращаем переброс вверх)
+        const scrollY = window.scrollY;
+        requestAnimationFrame(() => {
+          window.scrollTo(0, scrollY);
+        });
       });
 
       // ----- КУРСЫ (переключение) -----
@@ -1180,7 +1260,6 @@
             document.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('active'));
             swatch.classList.add('active');
             document.getElementById('mainContainer').style.borderColor = color;
-            // также меняем обводки карточек
             document.querySelectorAll('.card, .dev-card, .songs-section').forEach(el => {
               el.style.borderColor = color;
             });
